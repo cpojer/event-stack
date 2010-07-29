@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>EventStack for MooTools</title>
+	<link rel="stylesheet" media="all" type="text/css" href="style.css" />
+	
+	<style type="text/css">
+		div > div {
+			position: relative;
+			
+			width: 200px;
+			height: 200px;
+		}
+		
+		div > div > div {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 5;
+			
+			cursor: pointer;
+			
+			background-color: #000;
+		}
+		
+		div > div > div#second {
+			background-color: #4791d9;
+		}
+		
+		div > div > div#third {
+			background-color: #a647db;
+		}
+		
+		a#addFirst {
+			display: block;
+			margin: 10px;
+		}
+	</style>
+	<script type="text/javascript" src="mootools-core.js"></script>
+	<script type="text/javascript" src="mootools-class-extras.js"></script>
+	
+	<script type="text/javascript" src="../Source/EventStack.js"></script>
+	
+	<script type="text/javascript">
+		window.addEvent('domready', function(){
+			var EscapeStack = new EventStack;
+			
+			// Handler for all elements
+			var zIndex = 10;
+			var Widget = new Class({
+				
+				Implements: [Class.Binds],
+				
+				initialize: function(element){
+					this.element = document.id(element);
+					
+					this.element.addEvent('click', this.bound('close')); // This can also be closed on click
+					this.open();
+				},
+				
+				open: function(){
+					// Push this close handler on top of the stack
+					EscapeStack.push(this.bound('close'));
+					
+					// Add the element
+					this.element.style.zIndex = zIndex++;
+					this.element.inject(document.id('container'));
+				},
+				
+				close: function(){
+					// Erase the stack handler in case close got called from somewhere else
+					EscapeStack.erase(this.bound('close'));
+					
+					// Remove the element
+					this.element.dispose();
+				}
+				
+			});
+			
+			// First element
+			var first = new Widget('first');
+			
+			// Put the third element on the stack
+			new Widget('third');
+			
+			// Put the second element on the stack. The second element is now the topmost element
+			new Widget('second');
+			
+			document.id('addFirst').addEvent('click', function(){
+				first.open();
+			});
+		});
+	</script>
+</head>
+<body>
+<div>
+	<h2>Just press 'ESC' on your keyboard to see all the fun <small>(or click the element)</small>!</h2>
+	<div id="container">
+		<div id="first"></div>
+		<div id="second"></div>
+		<div id="third"></div>
+	</div>
+	<a id="addFirst" href="#">Put the first element on top of the stack.</a>
+</div>
+</body>
+</html>

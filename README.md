@@ -44,6 +44,26 @@ Options
 * event - (defaults to *keyup*) The event to be used
 * condition - Function to be used to determine whether to pop the stack. Defaults to pressing the ESC-Button.
 
+Tips
+----
+
+Create an OuterClickStack:
+
+	var OuterClickStack = new EventStack({
+
+		event: 'click',
+
+		condition: function(event, element){
+			var target = event.target;
+			return !(!element || element == target || element.contains(target));
+		}
+
+	});
+
+Usage:
+
+	OuterClickStack.push(fn, element); // Note the second argument, it allows you to associate any value with the pushed stack function
+
 Notes
 -----
 

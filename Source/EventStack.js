@@ -54,9 +54,9 @@ this.EventStack = new Class({
 		return this;
 	},
 
-	pop: function(e){
+	pop: function(event){
 		var fn = this.stack.pop();
-		if (fn) fn(e);
+		if (fn) fn(event);
 
 		return this;
 	}

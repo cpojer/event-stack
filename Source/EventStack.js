@@ -32,31 +32,36 @@ this.EventStack = new Class({
 	initialize: function(options){
 		this.setOptions(options);
 		this.stack = [];
-		
+		this.data = [];
+
 		document.addEvent(this.options.event, this.bound('condition'));
 	},
 
 	condition: function(event){
-		if (this.options.condition.call(this, event))
+		if (this.options.condition.call(this, event, this.data.getLast()))
 			this.pop(event);
 	},
 
 	erase: function(fn){
+		this.data.erase(this.data[this.stack.indexOf(fn)]);
 		this.stack.erase(fn);
 
 		return this;
 	},
 
-	push: function(fn){
+	push: function(fn, data){
 		this.erase(fn);
+		this.data.push(data || null);
 		this.stack.push(fn);
-
+		
 		return this;
 	},
 
 	pop: function(event){
-		var fn = this.stack.pop();
-		if (fn) fn(event);
+		var fn = this.stack.pop(),
+			data = this.data.pop();
+		
+		if (fn) fn.call(this, event, data);
 
 		return this;
 	}

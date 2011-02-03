@@ -3,17 +3,22 @@ EventStack
 
 Helps you Escape. Provides a stack that gets popped every time a certain condition, determined usually by a keyboard event, gets fulfilled. Imagine different widgets overlaying your page and on escape the widget currently on top should be removed.
 
+This Plugin is part of MooTools [PowerTools!](http://cpojer.net/PowerTools).
+
+* [Build PowerTools!](http://cpojer.net/PowerTools)
+* [Fork PowerTools!](https://github.com/cpojer/PowerTools)
+
 Build
 -----
 
 Build via [Packager](http://github.com/kamicane/packager), requires [MooTools Core](http://github.com/mootools/mootools-core) and [MooTools Class-Extras](http://github.com/cpojer/mootools-class-extras) to be registered to Packager already
 
-	./packager register /path/to/event-stack
-	./packager build EventStack/* > event-stack.js
+	packager register /path/to/event-stack
+	packager build EventStack/* > event-stack.js
 
 To build this plugin without external dependencies use
 
-	./packager build EventStack/* +use-only EventStack > event-stack.js
+	packager build EventStack/* +use-only EventStack > event-stack.js
 
 Demo
 ----

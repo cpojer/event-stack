@@ -40,10 +40,12 @@
 	<script type="text/javascript" src="mootools-class-extras.js"></script>
 	
 	<script type="text/javascript" src="../Source/EventStack.js"></script>
+	<script type="text/javascript" src="../Source/EventStack.OuterClick.js"></script>
 	
 	<script type="text/javascript">
 		window.addEvent('domready', function(){
 			var EscapeStack = new EventStack;
+			var OuterClickStack = new EventStack.OuterClick;
 			
 			// Handler for all elements
 			var zIndex = 10;
@@ -53,14 +55,13 @@
 				
 				initialize: function(element){
 					this.element = document.id(element);
-					
-					this.element.addEvent('click', this.bound('close')); // This can also be closed on click
 					this.open();
 				},
 				
 				open: function(){
-					// Push this close handler on top of the stack
+					// Push this close handler on top of the stacks
 					EscapeStack.push(this.bound('close'));
+					OuterClickStack.push(this.bound('close'), this.element);
 					
 					// Add the element
 					this.element.style.zIndex = zIndex++;
@@ -70,6 +71,7 @@
 				close: function(){
 					// Erase the stack handler in case close got called from somewhere else
 					EscapeStack.erase(this.bound('close'));
+					OuterClickStack.erase(this.bound('close'));
 					
 					// Remove the element
 					this.element.dispose();
@@ -86,7 +88,10 @@
 			// Put the second element on the stack. The second element is now the topmost element
 			new Widget('second');
 			
-			document.id('addFirst').addEvent('click', function(){
+			document.id('addFirst').addEvent('click', function(event){
+				// This should not bubble so the OuterClickStack doesn't get fired
+				event.stop();
+				
 				first.open();
 			});
 		});
@@ -94,7 +99,7 @@
 </head>
 <body>
 <div>
-	<h2>Just press 'ESC' on your keyboard to see all the fun <small>(or click the element)</small>!</h2>
+	<h2>Press 'ESC' on your keyboard or click outside of the element!</h2>
 	<div id="container">
 		<div id="first"></div>
 		<div id="second"></div>

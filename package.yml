@@ -15,3 +15,4 @@ authors: "[Christoph Pojer](http://cpojer.net)"
 
 sources:
     - "Source/EventStack.js"
+    - "Source/EventStack.OuterClick.js"

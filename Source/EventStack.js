@@ -68,4 +68,4 @@ this.EventStack = new Class({
 
 });
 
-})();
+}).call(this);

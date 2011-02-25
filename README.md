@@ -3,6 +3,8 @@ EventStack
 
 Helps you Escape. Provides a stack that gets popped every time a certain condition, determined usually by a keyboard event, gets fulfilled. Imagine different widgets overlaying your page and on escape the widget currently on top should be removed.
 
+![Screenshot](http://cpojer.net/Logo/event-stack.png)
+
 This Plugin is part of MooTools [PowerTools!](http://cpojer.net/PowerTools).
 
 * [Build PowerTools!](http://cpojer.net/PowerTools)

@@ -16,9 +16,11 @@ provides: EventStack
 ...
 */
 
-(function(){
+var Core = require('Core');
+var Class = Core.Class;
+var Options = Core.Options;
 
-this.EventStack = new Class({
+var EventStack = module.exports = new Class({
 
 	Implements: [Options, Class.Binds],
 
@@ -53,19 +55,17 @@ this.EventStack = new Class({
 		this.erase(fn);
 		this.data.push(data || null);
 		this.stack.push(fn);
-		
+
 		return this;
 	},
 
 	pop: function(event){
 		var fn = this.stack.pop(),
 			data = this.data.pop();
-		
+
 		if (fn) fn.call(this, event, data);
 
 		return this;
 	}
 
 });
-
-}).call(this);
